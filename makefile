@@ -24,8 +24,11 @@ fixtures:
 migration:
 	$(PHP_BIN_CONSOLE) make:migration
 
+controller:
+	$(PHP_BIN_CONSOLE) make:controller
+
 migrate:
-	$(PHP_BIN_CONSOLE) make:migrate
+	$(PHP_BIN_CONSOLE) doctrine:migrations:migrate
 
 cache:
 	$(PHP_BIN_CONSOLE) cache:clear
