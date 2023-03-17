@@ -43,7 +43,8 @@ class DestinationRepository extends ServiceEntityRepository
     public function getLongDistanceDestinations(int $longDestination)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.longDestination = '.$longDestination)
+            ->andWhere('d.longDestination = :longDestination')
+            ->setParameter('longDestination', $longDestination)
             ->getQuery()
             ->getResult()
         ;
@@ -52,7 +53,9 @@ class DestinationRepository extends ServiceEntityRepository
     public function getDestination($start, $end)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.start = '.$start.' AND d.end = '.$end.' OR d.start = '.$end.' AND d.end = '.$start)
+            ->andWhere('(d.start = :start AND d.end = :end) OR (d.start = :end AND d.end = :start)')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
             ->getQuery()
             ->getResult()
         ;
