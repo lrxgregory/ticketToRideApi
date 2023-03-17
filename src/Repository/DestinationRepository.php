@@ -39,6 +39,25 @@ class DestinationRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function getLongDistanceDestinations(int $longDestination)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.longDestination = '.$longDestination)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function getDestination($start, $end)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.start = '.$start.' AND d.end = '.$end.' OR d.start = '.$end.' AND d.end = '.$start)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Destination[] Returns an array of Destination objects
 //     */
