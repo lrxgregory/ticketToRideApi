@@ -11,10 +11,12 @@ use OpenApi\Attributes\Parameter;
 use OpenApi\Attributes\JsonContent;
 use App\Repository\DestinationRepository;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -48,18 +50,37 @@ class DestinationController extends AbstractController
         schema: new Schema(type: 'string')
     )]
     #[Tag(name: 'Destinations')]
-    public function getdestinations(DestinationRepository $destinationRepository, SerializerInterface $serializerInterface, Request $request): JsonResponse
+    public function getdestinations(DestinationRepository $destinationRepository, SerializerInterface $serializerInterface, Request $request, TagAwareCacheInterface $cache): JsonResponse
     {
+        $idCacheDestination = "getDestinations";
+        $idCacheLongDestination = "getLongDestinations";
+        $idCacheDestinationStartEnd = "getDestinationsStartEnd";
+
         $longDestination = $request->get('longDestination');
         $start = $request->get('start');
         $end = $request->get('end');
         
         if (isset($longDestination)) {
-            $destination = $destinationRepository->getLongDistanceDestinations($longDestination);
+            $destination = $cache->get($idCacheLongDestination, function (ItemInterface $item) use ($destinationRepository, $longDestination) {
+                echo 'LongDestination pas encore en cache';
+                $item->tag('destinationsCache');
+                $item->expiresAfter(60);
+                return $destinationRepository->getLongDistanceDestinations($longDestination);
+            });
         } else if (isset($start) && isset($end)) {
-            $destination = $destinationRepository->getDestination($start, $end);
+            $destination = $cache->get($idCacheDestinationStartEnd, function (ItemInterface $item) use ($destinationRepository, $start, $end) {
+                echo 'Destination stard end pas en cache';
+                $item->tag('destinationsCache');
+                $item->expiresAfter(60);
+                return $destinationRepository->getDestination($start, $end);
+            });
         } else {
-            $destination = $destinationRepository->findAll();
+            $destination = $cache->get($idCacheDestination, function (ItemInterface $item) use ($destinationRepository) {
+                echo 'destination pas encore en cache';
+                $item->tag('destinationsCache');
+                $item->expiresAfter(60);
+                return $destinationRepository->findAll();
+            });
         }
 
         $jsonDestinationRepository = $serializerInterface->serialize($destination, 'json');
