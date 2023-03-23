@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\DestinationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DestinationRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DestinationRepository::class)]
 class Destination
@@ -14,15 +15,19 @@ class Destination
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getDestinations"])]
     private ?string $start = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getDestinations"])]
     private ?string $end = null;
 
     #[ORM\Column]
+    #[Groups(["getDestinations"])]
     private ?int $score = null;
 
     #[ORM\Column]
+    #[Groups(["getDestinations"])]
     private ?bool $longDestination = null;
 
     public function getId(): ?int

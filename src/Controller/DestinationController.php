@@ -83,7 +83,7 @@ class DestinationController extends AbstractController
             });
         }
 
-        $jsonDestinationRepository = $serializerInterface->serialize($destination, 'json');
+        $jsonDestinationRepository = $serializerInterface->serialize($destination, 'json', ['groups' => 'getDestinations']);
 
         return new JsonResponse($jsonDestinationRepository, Response::HTTP_OK, [], true);
     }
