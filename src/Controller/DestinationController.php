@@ -39,13 +39,13 @@ class DestinationController extends AbstractController
         name: 'start',
         in: 'query',
         description: 'The start destination',
-        schema: new Schema(type: 'sting')
+        schema: new Schema(type: 'string')
     )]
     #[Parameter(
         name: 'end',
         in: 'query',
         description: 'The end destination',
-        schema: new Schema(type: 'sting')
+        schema: new Schema(type: 'string')
     )]
     #[Tag(name: 'Destinations')]
     public function getdestinations(DestinationRepository $destinationRepository, SerializerInterface $serializerInterface, Request $request): JsonResponse
