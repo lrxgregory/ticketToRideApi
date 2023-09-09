@@ -80,7 +80,7 @@ class DestinationController extends AbstractController
                 echo 'Destination with start only are not in cache';
                 $item->tag('destinationsCache');
                 $item->expiresAfter(60);
-                return $destinationRepository->getDestinationWithStartOnly($start, $end);
+                return $destinationRepository->getDestinationWithStartOnly($start);
             });
         } else {
             $destination = $cache->get($idCacheDestination, function (ItemInterface $item) use ($destinationRepository) {
