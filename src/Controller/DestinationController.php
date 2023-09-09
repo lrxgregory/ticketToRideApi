@@ -55,6 +55,7 @@ class DestinationController extends AbstractController
         $idCacheDestination = "getDestinations";
         $idCacheLongDestination = "getLongDestinations";
         $idCacheDestinationStartEnd = "getDestinationsStartEnd";
+        $idCacheDestinationStartOnly = "getDestinationsStartOnly";
 
         $longDestination = $request->get('longDestination');
         $start = $request->get('start');
@@ -73,6 +74,13 @@ class DestinationController extends AbstractController
                 $item->tag('destinationsCache');
                 $item->expiresAfter(60);
                 return $destinationRepository->getDestination($start, $end);
+            });
+        } else if (isset($start)) {
+            $destination = $cache->get($idCacheDestinationStartOnly, function (ItemInterface $item) use ($destinationRepository, $start, $end) {
+                echo 'Destination with start only are not in cache';
+                $item->tag('destinationsCache');
+                $item->expiresAfter(60);
+                return $destinationRepository->getDestinationWithStartOnly($start, $end);
             });
         } else {
             $destination = $cache->get($idCacheDestination, function (ItemInterface $item) use ($destinationRepository) {

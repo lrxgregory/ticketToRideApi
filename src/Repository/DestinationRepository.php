@@ -46,10 +46,9 @@ class DestinationRepository extends ServiceEntityRepository
             ->andWhere('d.longDestination = :longDestination')
             ->setParameter('longDestination', $longDestination)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
     public function getDestination($start, $end)
     {
         return $this->createQueryBuilder('d')
@@ -57,32 +56,40 @@ class DestinationRepository extends ServiceEntityRepository
             ->setParameter('start', $start)
             ->setParameter('end', $end)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-//    /**
-//     * @return Destination[] Returns an array of Destination objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getDestinationWithStartOnly($start)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('(d.start = :start) OR (d.end = :start)')
+            ->setParameter('start', $start)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Destination
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Destination[] Returns an array of Destination objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('d')
+    //            ->andWhere('d.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('d.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Destination
+    //    {
+    //        return $this->createQueryBuilder('d')
+    //            ->andWhere('d.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
