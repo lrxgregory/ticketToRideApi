@@ -43,24 +43,6 @@ class RoadController extends AbstractController
         description: 'The end Road',
         schema: new Schema(type: 'string')
     )]
-    #[Parameter(
-        name: 'Score',
-        in: 'query',
-        description: 'The field used to get the score of this road',
-        schema: new Schema(type: 'integer')
-    )]
-    #[Parameter(
-        name: 'Wagon number',
-        in: 'query',
-        description: 'The field used to get the number of wagon to complete this road',
-        schema: new Schema(type: 'integer')
-    )]
-    #[Parameter(
-        name: 'Locomotive',
-        in: 'query',
-        description: 'The field used to know if you need a locomotive to complete this road',
-        schema: new Schema(type: 'integer')
-    )]
     #[Tag(name: 'Roads')]
     public function getRoads(RoadRepository $roadRepository, SerializerInterface $serializerInterface, Request $request, TagAwareCacheInterface $cache): JsonResponse
     {
