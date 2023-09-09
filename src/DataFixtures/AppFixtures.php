@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Destination;
+use App\Entity\Road;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -20,7 +21,7 @@ class AppFixtures extends Fixture
             [
                 'start' => 'Cadiz',
                 'end' => 'Stockholm',
-                'score' =>'21',
+                'score' => '21',
                 'longDestination' => true,
             ],
             [
@@ -175,7 +176,7 @@ class AppFixtures extends Fixture
             ],
             [
                 'start' => 'Barcelona',
-                'end' => 'Munchen',
+                'end' => 'München',
                 'score' => 8,
                 'longDestination' => false,
             ],
@@ -232,64 +233,55 @@ class AppFixtures extends Fixture
                 'end' => 'Kharkov',
                 'score' => 10,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Riga',
                 'end' => 'Bucuresti',
                 'score' => 10,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Essen',
                 'end' => 'Kyiv',
                 'score' => 10,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Venizia',
                 'end' => 'Constantinople',
                 'score' => 10,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'London',
                 'end' => 'Wien',
                 'score' => 10,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Athina',
                 'end' => 'Wilno',
                 'score' => 11,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Stockholm',
                 'end' => 'Wien',
                 'score' => 11,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Berlin',
                 'end' => 'Moskva',
                 'score' => 12,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Amsterdam',
                 'end' => 'Wilno',
                 'score' => 12,
                 'longDestination' => false,
-                ],
-            
+            ],
             [
                 'start' => 'Frankfurt',
                 'end' => 'Smolensk',
@@ -298,12 +290,578 @@ class AppFixtures extends Fixture
             ],
         ];
 
-        foreach($destinationsTicketToRideEurope as $destinationTicketToRideEurope) {
+        foreach ($destinationsTicketToRideEurope as $destinationTicketToRideEurope) {
             $destination = new Destination();
             $destination->setStart($destinationTicketToRideEurope['start']);
             $destination->setEnd($destinationTicketToRideEurope['end']);
             $destination->setScore($destinationTicketToRideEurope['score']);
             $destination->setLongDestination($destinationTicketToRideEurope['longDestination']);
+            $manager->persist($destination);
+        }
+
+        $destinationsScoringTicketToRideEurope = [
+            [
+                'start' => 'Edinburch',
+                'end' => 'London',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'London',
+                'end' => 'Amsterdam',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '2',
+            ],
+            [
+                'start' => 'London',
+                'end' => 'Dieppe',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '2',
+            ],
+            [
+                'start' => 'Amsterdam',
+                'end' => 'Essen',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Amsterdam',
+                'end' => 'Bruxelles',
+                'score' => '1',
+                'wagonNumber' => '1',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Dieppe',
+                'end' => 'Brest',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Dieppe',
+                'end' => 'Paris',
+                'score' => '1',
+                'wagonNumber' => '1',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Dieppe',
+                'end' => 'Bruxelles',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Essen',
+                'end' => 'Kobenhavn',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Essen',
+                'end' => 'Berlin',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Essen',
+                'end' => 'Frankfurt',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Bruxelles',
+                'end' => 'Paris',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Bruxelles',
+                'end' => 'Frankfurt',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Brest',
+                'end' => 'Pamplona',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Brest',
+                'end' => 'Paris',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Pamplona',
+                'end' => 'Madrid',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Madrid',
+                'end' => 'Lisboa',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Lisboa',
+                'end' => 'Cadiz',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Madrid',
+                'end' => 'Cadiz',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Madrid',
+                'end' => 'Barcelona',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Barcelona',
+                'end' => 'Pamplona',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '2',
+            ],
+            [
+                'start' => 'Barcelona',
+                'end' => 'Marseille',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Pamplona',
+                'end' => 'Marseille',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Paris',
+                'end' => 'Marseille',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Paris',
+                'end' => 'Pamplona',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Paris',
+                'end' => 'Zurich',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Paris',
+                'end' => 'Frankfurt',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Zurich',
+                'end' => 'Marseille',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Zurich',
+                'end' => 'Venizia',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Zurich',
+                'end' => 'München',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Frankfurt',
+                'end' => 'München',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Frankfurt',
+                'end' => 'Berlin',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Berlin',
+                'end' => 'Wien',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Berlin',
+                'end' => 'Danzic',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Berlin',
+                'end' => 'Warszawa',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'München',
+                'end' => 'Venezia',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'München',
+                'end' => 'Wien',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Marseille',
+                'end' => 'Roma',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Venizia',
+                'end' => 'Roma',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Venizia',
+                'end' => 'Zagreb',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Roma',
+                'end' => 'Palermo',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Roma',
+                'end' => 'Brindisi',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Brindisi',
+                'end' => 'Palermo',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Brindisi',
+                'end' => 'Athina',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Palermo',
+                'end' => 'Smyrna',
+                'score' => '13',
+                'wagonNumber' => '6',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Athina',
+                'end' => 'Sofia',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Athina',
+                'end' => 'Smyrna',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Smyrna',
+                'end' => 'Angora',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Smyrna',
+                'end' => 'Constantinople',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Angora',
+                'end' => 'Constantinople',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Angora',
+                'end' => 'Erzurum',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Constantinople',
+                'end' => 'Sevastopol',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Erzurum',
+                'end' => 'Sochi',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Sochi',
+                'end' => 'Sevastopol',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '1',
+            ],
+            [
+                'start' => 'Sochi',
+                'end' => 'Rostov',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Sevastopol',
+                'end' => 'Rostov',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Sevastopol',
+                'end' => 'Bucuresti',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Rostov',
+                'end' => 'Kharkov',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Kharkov',
+                'end' => 'Kyiv',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Kharkov',
+                'end' => 'Moskva',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Moskva',
+                'end' => 'Petrograd',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Moskva',
+                'end' => 'Smolensk',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Petrograd',
+                'end' => 'Rica',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Petrograd',
+                'end' => 'Stockholm',
+                'score' => '21',
+                'wagonNumber' => '8',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Stockholm',
+                'end' => 'Kobenhavn',
+                'score' => '21',
+                'wagonNumber' => '8',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Rica',
+                'end' => 'Wilno',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Rica',
+                'end' => 'Danzic',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Danzic',
+                'end' => 'Warsawa',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Warsawa',
+                'end' => 'Wilno',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Warsawa',
+                'end' => 'Kyiv',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Wilno',
+                'end' => 'Smolensk',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Kyiv',
+                'end' => 'Budapest',
+                'score' => '15',
+                'wagonNumber' => '6',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Budapest',
+                'end' => 'Wien',
+                'score' => '1',
+                'wagonNumber' => '1',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Budapest',
+                'end' => 'Zagrab',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Budapest',
+                'end' => 'Bucaresti',
+                'score' => '7',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Budapest',
+                'end' => 'Sarajevo',
+                'score' => '4',
+                'wagonNumber' => '3',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Zagrab',
+                'end' => 'Sarajevo',
+                'score' => '3',
+                'wagonNumber' => '4',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Sarajevo',
+                'end' => 'Sofia',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+            [
+                'start' => 'Sofia',
+                'end' => 'Bucaresti',
+                'score' => '2',
+                'wagonNumber' => '2',
+                'locomotive' => '0',
+            ],
+        ];
+
+        foreach ($destinationsScoringTicketToRideEurope as $destinationScoringTicketToRideEurope) {
+            $destination = new Road();
+            $destination->setStart($destinationScoringTicketToRideEurope['start']);
+            $destination->setEnd($destinationScoringTicketToRideEurope['end']);
+            $destination->setScore($destinationScoringTicketToRideEurope['score']);
+            $destination->setWagonNumber($destinationScoringTicketToRideEurope['wagonNumber']);
+            $destination->setLocomotive($destinationScoringTicketToRideEurope['locomotive']);
             $manager->persist($destination);
         }
 
