@@ -34,7 +34,7 @@ class DestinationController extends AbstractController
     #[Parameter(
         name: 'longDestination',
         in: 'query',
-        description: 'The field used to filter by long destination or not',
+        description: 'The field used to filter by long destination or not (1 or 0)',
         schema: new Schema(type: 'integer')
     )]
     #[Parameter(
@@ -63,28 +63,24 @@ class DestinationController extends AbstractController
 
         if (isset($longDestination)) {
             $destination = $cache->get($idCacheLongDestination, function (ItemInterface $item) use ($destinationRepository, $longDestination) {
-                echo 'LongDestination are not in cache';
                 $item->tag('destinationsCache');
                 $item->expiresAfter(60);
                 return $destinationRepository->getLongDistanceDestinations($longDestination);
             });
         } else if (isset($start) && isset($end)) {
             $destination = $cache->get($idCacheDestinationStartEnd, function (ItemInterface $item) use ($destinationRepository, $start, $end) {
-                echo 'Destination stard end are not in cache';
                 $item->tag('destinationsCache');
                 $item->expiresAfter(60);
                 return $destinationRepository->getDestination($start, $end);
             });
         } else if (isset($start)) {
-            $destination = $cache->get($idCacheDestinationStartOnly, function (ItemInterface $item) use ($destinationRepository, $start, $end) {
-                echo 'Destination with start only are not in cache';
+            $destination = $cache->get($idCacheDestinationStartOnly, function (ItemInterface $item) use ($destinationRepository, $start) {
                 $item->tag('destinationsCache');
                 $item->expiresAfter(60);
                 return $destinationRepository->getDestinationWithStartOnly($start);
             });
         } else {
             $destination = $cache->get($idCacheDestination, function (ItemInterface $item) use ($destinationRepository) {
-                echo 'Destination are not in cache';
                 $item->tag('destinationsCache');
                 $item->expiresAfter(60);
                 return $destinationRepository->findAll();

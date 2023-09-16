@@ -39,7 +39,6 @@ class DestinationRepository extends ServiceEntityRepository
         }
     }
 
-
     public function getLongDistanceDestinations(int $longDestination)
     {
         return $this->createQueryBuilder('d')
