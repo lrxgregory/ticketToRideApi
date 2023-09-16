@@ -34,14 +34,32 @@ class RoadController extends AbstractController
     #[Parameter(
         name: 'start',
         in: 'query',
-        description: 'The start Road',
+        description: 'The start of the road',
         schema: new Schema(type: 'string')
     )]
     #[Parameter(
         name: 'end',
         in: 'query',
-        description: 'The end Road',
+        description: 'The end of the road',
         schema: new Schema(type: 'string')
+    )]
+    #[Parameter(
+        name: 'scoreRoad',
+        in: 'query',
+        description: 'The field used to filter by score',
+        schema: new Schema(type: 'integer')
+    )]
+    #[Parameter(
+        name: 'wagonNumber',
+        in: 'query',
+        description: 'The field used to filter by wagon number',
+        schema: new Schema(type: 'integer')
+    )]
+    #[Parameter(
+        name: 'locomotive',
+        in: 'query',
+        description: 'The field used to filter by road with locomotive (1 or 0)',
+        schema: new Schema(type: 'boolean')
     )]
     #[Tag(name: 'Roads')]
     public function getRoads(RoadRepository $roadRepository, SerializerInterface $serializerInterface, Request $request, TagAwareCacheInterface $cache): JsonResponse
@@ -51,40 +69,43 @@ class RoadController extends AbstractController
         $idCacheLocomotive = "getLocomotive";
         $idCacheWagonNumber = "getWagonNumber";
         $idCacheRoadStartEnd = "getRoadsStartEnd";
+        $idCacheRoadStartOnly = "getRoadsStartOnly";
 
         $scoreRoad = $request->get('scoreRoad');
-        $locomotive = $request->get('scoreRoad');
-        $wagonNumber = $request->get('scoreRoad');
+        $locomotive = $request->get('locomotive');
+        $wagonNumber = $request->get('wagonNumber');
         $start = $request->get('start');
         $end = $request->get('end');
 
         if (isset($scoreRoad)) {
             $road = $cache->get($idCacheScoreRoad, function (ItemInterface $item) use ($roadRepository, $scoreRoad) {
-                echo 'Score road are not in cache';
                 $item->tag('RoadsCache');
                 $item->expiresAfter(60);
-                return $roadRepository->getLongDistanceRoads($scoreRoad);
+                return $roadRepository->getRoadsByScore($scoreRoad);
             });
         } else if (isset($start) && isset($end)) {
             $road = $cache->get($idCacheRoadStartEnd, function (ItemInterface $item) use ($roadRepository, $start, $end) {
-                echo 'Road stard end are not in cache';
                 $item->tag('RoadsCache');
                 $item->expiresAfter(60);
                 return $roadRepository->getRoad($start, $end);
+            });
+        } else if (isset($start)) {
+            $road = $cache->get($idCacheRoadStartOnly, function (ItemInterface $item) use ($roadRepository, $start, $end) {
+                $item->tag('RoadsCache');
+                $item->expiresAfter(60);
+                return $roadRepository->getRoadWithStartOnly($start);
             });
         } else if (isset($locomotive)) {
-            $road = $cache->get($idCacheLocomotive, function (ItemInterface $item) use ($roadRepository, $start, $end) {
-                echo 'Road stard end are not in cache';
+            $road = $cache->get($idCacheLocomotive . '_' . $locomotive, function (ItemInterface $item) use ($roadRepository, $locomotive) {
                 $item->tag('RoadsCache');
                 $item->expiresAfter(60);
-                return $roadRepository->getRoad($start, $end);
+                return $roadRepository->getRoadWithLocomitiveRequired($locomotive);
             });
         } else if (isset($wagonNumber)) {
-            $road = $cache->get($idCacheWagonNumber, function (ItemInterface $item) use ($roadRepository, $start, $end) {
-                echo 'Road stard end are not in cache';
+            $road = $cache->get($idCacheWagonNumber . '_' . $wagonNumber, function (ItemInterface $item) use ($roadRepository, $wagonNumber) {
                 $item->tag('RoadsCache');
                 $item->expiresAfter(60);
-                return $roadRepository->getRoad($start, $end);
+                return $roadRepository->getRoadByWagonNumberValue($wagonNumber);
             });
         } else {
             $road = $cache->get($idCacheRoad, function (ItemInterface $item) use ($roadRepository) {
