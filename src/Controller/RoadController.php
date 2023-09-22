@@ -80,38 +80,37 @@ class RoadController extends AbstractController
         if (isset($scoreRoad)) {
             $road = $cache->get($idCacheScoreRoad, function (ItemInterface $item) use ($roadRepository, $scoreRoad) {
                 $item->tag('RoadsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $roadRepository->getRoadsByScore($scoreRoad);
             });
         } else if (isset($start) && isset($end)) {
             $road = $cache->get($idCacheRoadStartEnd, function (ItemInterface $item) use ($roadRepository, $start, $end) {
                 $item->tag('RoadsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $roadRepository->getRoad($start, $end);
             });
         } else if (isset($start)) {
             $road = $cache->get($idCacheRoadStartOnly, function (ItemInterface $item) use ($roadRepository, $start, $end) {
                 $item->tag('RoadsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $roadRepository->getRoadWithStartOnly($start);
             });
         } else if (isset($locomotive)) {
             $road = $cache->get($idCacheLocomotive . '_' . $locomotive, function (ItemInterface $item) use ($roadRepository, $locomotive) {
                 $item->tag('RoadsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $roadRepository->getRoadWithLocomitiveRequired($locomotive);
             });
         } else if (isset($wagonNumber)) {
             $road = $cache->get($idCacheWagonNumber . '_' . $wagonNumber, function (ItemInterface $item) use ($roadRepository, $wagonNumber) {
                 $item->tag('RoadsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $roadRepository->getRoadByWagonNumberValue($wagonNumber);
             });
         } else {
             $road = $cache->get($idCacheRoad, function (ItemInterface $item) use ($roadRepository) {
-                echo 'Road are not in cache';
                 $item->tag('RoadsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $roadRepository->findAll();
             });
         }

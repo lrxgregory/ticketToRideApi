@@ -64,25 +64,25 @@ class DestinationController extends AbstractController
         if (isset($longDestination)) {
             $destination = $cache->get($idCacheLongDestination, function (ItemInterface $item) use ($destinationRepository, $longDestination) {
                 $item->tag('destinationsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $destinationRepository->getLongDistanceDestinations($longDestination);
             });
         } else if (isset($start) && isset($end)) {
             $destination = $cache->get($idCacheDestinationStartEnd, function (ItemInterface $item) use ($destinationRepository, $start, $end) {
                 $item->tag('destinationsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $destinationRepository->getDestination($start, $end);
             });
         } else if (isset($start)) {
             $destination = $cache->get($idCacheDestinationStartOnly, function (ItemInterface $item) use ($destinationRepository, $start) {
                 $item->tag('destinationsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $destinationRepository->getDestinationWithStartOnly($start);
             });
         } else {
             $destination = $cache->get($idCacheDestination, function (ItemInterface $item) use ($destinationRepository) {
                 $item->tag('destinationsCache');
-                $item->expiresAfter(60);
+                $item->expiresAfter(86400);
                 return $destinationRepository->findAll();
             });
         }
